@@ -43,7 +43,7 @@ The project is built using only standard Python libraries, so you don't need to 
 
 You just need Python 3. (Tkinter and winsound are included with standard Python on Windows).
 
-Save the code as a Python file (e.g., final_project.py).
+Save the code as a Python file (e.g., Final_PY_SuXieJung.py).
 
 Open your terminal or Command Prompt.
 
@@ -72,5 +72,6 @@ Adjust the font size.
 Toggle the dyslexia font or mute sounds.
 
 Reset all your saved progress if you want to start over.
+
 
 Click "Export CSV" at any time to save a file of your session history.
