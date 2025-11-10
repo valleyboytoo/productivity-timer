@@ -1,62 +1,76 @@
-# Focus+ Productivity Timer
+Focus+ Productivity Timer
 
-## 📝 Project Description
+📝 About This Project
+This is a GUI application built with Python and Tkinter for our final project.
 
-This project is a Python-based GUI application, **Focus+ Timer**, designed as a productivity tool for neurodiverse users, particularly those with ADHD or other attention-related challenges. It provides a simple, customizable, and non-distracting interface to help manage work and break sessions effectively.
+The goal is to help users, especially those with ADHD or other attention challenges, manage their work and break sessions. It's a "Pomodoro" style timer but includes extra features to make it more engaging, accessible, and user-friendly.
 
-The application is built using Python's built-in **Tkinter** library and incorporates several socio-cultural and accessibility features to create a more inclusive user experience.
+✨ Features
+Custom Timers: You can set your own times for Focus and Break sessions using the spinboxes.
 
-## ✨ Key Features
+Quick Presets: Includes "25/5" and "50/10" buttons to quickly set common timer intervals.
 
-  * [cite\_start]**Customizable Timers:** Set custom durations for both **Focus** and **Break** sessions[cite: 21, 22].
-  * [cite\_start]**Quick Presets:** Buttons for quickly setting common Pomodoro intervals like 25/5 and 50/10[cite: 26, 27, 28].
-  * [cite\_start]**Gamification:** Earn **XP** for completed focus minutes [cite: 1, 57][cite\_start], **Level Up** [cite: 15, 59][cite\_start], maintain a **Streak** [cite: 15, 57][cite\_start], and earn **Badges** (Bronze, Silver, Gold) for consistency[cite: 1, 15, 32, 58].
-  * [cite\_start]**Session Logging:** All completed and interrupted sessions are logged[cite: 15, 49, 57, 81].
-  * [cite\_start]**CSV Export:** Users can export their entire session history to a CSV file for analysis[cite: 36, 74].
-  * [cite\_start]**Auto-Start:** The timer automatically cycles between focus and break sessions to maintain flow[cite: 1].
-  * [cite\_start]**Persistent State:** All settings, progress, and session logs are saved locally in a `.json` file and reloaded on start[cite: 8, 14, 79, 80].
+Auto-Cycling: The timer automatically cycles between focus and break sessions so you can stay in the flow.
 
-### ♿ Accessibility & Socio-Cultural Features
+Gamification System: To help with motivation, the app includes:
 
-  * [cite\_start]**Multilingual Support:** The entire interface can be switched between **English**, **Korean**, and **Chinese**[cite: 2, 4, 6, 37].
-  * [cite\_start]**Dyslexia-Friendly Font:** A toggle in the settings enables a detected dyslexia-friendly font (like OpenDyslexic or Comic Sans) for improved readability[cite: 1, 17, 68].
-  * [cite\_start]**Adjustable Font Size:** Users can scale the application's font size up or down for comfort[cite: 17, 67].
-  * [cite\_start]**Customizable Themes:** Includes a default "Soft" theme with non-distracting colors and a "Playful" theme for a different feel[cite: 1, 7, 16].
-  * [cite\_start]**Sensory-Friendly Audio:** Uses a simple system beep (`winsound.Beep` or the system bell) for notifications, avoiding jarring MP3s[cite: 62, 63, 65]. [cite\_start]A **Mute** option is also available[cite: 16, 68].
+XP: Earn experience points for every minute of focused work.
 
-## ⚙️ Requirements
+Levels: Level up as you accumulate XP.
 
-  * **Python 3**
-  * **Tkinter** (This is included in most standard Python installations).
-  * [cite\_start]**`winsound`** (This module is built-in on Windows systems for audio notifications [cite: 2]). [cite\_start]The app will fall back to the system `bell()` if it's not available[cite: 63, 65].
+Streaks: Build a streak for every focus session you complete in a row.
 
-## 🚀 How to Run
+Badges: Earn Bronze, Silver, and Gold badges for reaching streak milestones.
 
-1.  Ensure you have Python 3 installed.
+Accessibility Options:
 
-2.  Save the code as a Python file (e.g., `focus_timer.py`).
+Themes: Choose between a "Soft" (default) theme with calm colors or a "Playful" theme.
 
-3.  Open your terminal or command prompt.
+Adjustable Font Size: A slider in the settings lets you make the text bigger or smaller.
 
-4.  Navigate to the directory where you saved the file.
+Dyslexia-Friendly Font: A toggle that switches the app to use a font like OpenDyslexic (if you have it installed) for better readability.
 
-5.  Run the following command:
+Simple Audio: Uses a simple system beep for notifications that isn't jarring. There is also a Mute button.
 
-    ```bash
-    python focus_timer.py
-    ```
+Multi-Language: The entire app can be switched between English, Korean, and Chinese.
 
-## Example of Use
+Progress Saving: All your settings, XP, level, and session history are automatically saved to a productivity_timer_state.json file. When you reopen the app, you start right where you left off.
 
-1.  When you run the program, the main timer window will appear.
-2.  [cite\_start]On the right side, use the **"Focus (min)"** and **"Break (min)"** spinboxes to set your desired times[cite: 21, 22].
-3.  [cite\_start]Click the **"Start"** button (or press the `Spacebar`) to begin your first focus session[cite: 23].
-4.  [cite\_start]The timer will display a visual countdown and a progress arc on the canvas[cite: 20, 52, 55].
-5.  [cite\_start]When the session ends, a system beep will sound [cite: 62][cite\_start], and the timer will automatically start the next session (e.g., switch from focus to break)[cite: 1, 58, 59].
-6.  [cite\_start]Click **"Settings"** to open a new window where you can[cite: 35, 66]:
-      * [cite\_start]Change the theme (Soft/Playful)[cite: 67].
-      * [cite\_start]Adjust the font size[cite: 67].
-      * [cite\_start]Toggle the **Dyslexia font**[cite: 68].
-      * [cite\_start]**Mute** all sounds[cite: 68].
-      * [cite\_start]**Reset** all your saved progress and settings[cite: 68].
-7.  [cite\_start]Click **"Export CSV"** to save a file containing your session history[cite: 36, 74].
+Session Log & Export: The app logs every session (even incomplete ones). You can click "Export CSV" to save your full history to a file to see your work patterns.
+
+⚙️ How to Run
+The project is built using only standard Python libraries, so you don't need to install anything extra.
+
+You just need Python 3. (Tkinter and winsound are included with standard Python on Windows).
+
+Save the code as a Python file (e.g., final_project.py).
+
+Open your terminal or Command Prompt.
+
+Navigate (cd) to the folder where you saved the file.
+
+Run the script:
+
+Bash
+
+python final_project.py
+📖 How to Use
+When the app opens, set your "Focus (min)" and "Break (min)" times on the right.
+
+Click the "Start" button (or just press the Spacebar) to begin.
+
+You will see the timer count down and a circular progress bar fill up.
+
+When the time is up, the app will make a "beep" sound and automatically start the next session (switching from focus to break, or vice-versa).
+
+Click "Settings" to:
+
+Change the theme.
+
+Adjust the font size.
+
+Toggle the dyslexia font or mute sounds.
+
+Reset all your saved progress if you want to start over.
+
+Click "Export CSV" at any time to save a file of your session history.
