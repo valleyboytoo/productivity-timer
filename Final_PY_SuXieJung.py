@@ -430,22 +430,19 @@ class ProductivityTimerApp:
         self.apply_theme()
 
     def play_end_sound(self):
-        # Simplified sound player (no MP3, no URL)
         if self.muted.get():
             return
+        
         try:
             if HAVE_WINSOUND:
-                # Use Windows system sound
+                # Use winsound if available (it's non-blocking)
                 winsound.Beep(880, 300)
             else:
-                # Fallback for non-Windows
+                # Fallback for Mac/Linux
                 self.root.bell()
-        except Exception:
-            try:
-                # Secondary fallback
-                self.root.bell()
-            except Exception:
-                pass # Sound failed
+        except Exception as e:
+            # If sound fails, just print a warning to the console
+            print(f"Warning: Could not play sound. Error: {e}")
 
     # settings / export / reset
     def open_settings(self):
