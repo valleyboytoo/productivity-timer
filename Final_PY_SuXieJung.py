@@ -1,4 +1,4 @@
-
+# Importing libraries
 import tkinter as tk
 from tkinter import ttk, messagebox, filedialog, font as tkfont
 import json, csv, time, math, os
