@@ -134,7 +134,8 @@ class ProductivityTimerApp:
         self.theme_name = tk.StringVar(value=self.state.get("theme", "Soft"))
         self.font_size = tk.IntVar(value=self.state.get("font_size", 14))
         self.dyslexia_font = tk.BooleanVar(value=self.state.get("dyslexia_font", False))
-
+        self.bg_sound = tk.StringVar(value="None")
+        
         # build UI
         self.build_ui()
         self.apply_font_family()
@@ -444,22 +445,71 @@ class ProductivityTimerApp:
             # If sound fails, just print a warning to the console
             print(f"Warning: Could not play sound. Error: {e}")
 
+    def change_bg_sound(self, choice):
+            # Save the choice variable
+            self.bg_sound.set(choice)
+            
+            # Check if we have winsound (Windows only)
+            if not HAVE_WINSOUND:
+                print("Sorry, background sound only works on Windows.")
+                return
+    
+            try:
+                # Stop any currently playing sound first
+                winsound.PlaySound(None, winsound.SND_PURGE)
+    
+                if choice == "None":
+                    # Do nothing, we just stopped the sound
+                    pass
+                
+                elif choice == "Rain":
+                    # SND_ASYNC = play in background (don't freeze app)
+                    # SND_LOOP = play over and over
+                    winsound.PlaySound("rain.wav", winsound.SND_ASYNC | winsound.SND_LOOP)
+                    
+                elif choice == "Coffee":
+                    winsound.PlaySound("coffee.wav", winsound.SND_ASYNC | winsound.SND_LOOP)
+                    
+                elif choice == "White Noise":
+                    winsound.PlaySound("white_noise.wav", winsound.SND_ASYNC | winsound.SND_LOOP)
+                    
+            except Exception as e:
+                print("Could not play sound:", e)
+                messagebox.showwarning("Sound Error", "Could not find the .wav file! Make sure it is in the same folder.")
+
     # settings / export / reset
     def open_settings(self):
-        win = tk.Toplevel(self.root)
-        win.title(self.strings["settings"]); win.transient(self.root);
-        win.grab_set()
-        ttk.Label(win, text=self.strings["theme"]).grid(row=0, column=0, sticky="w", padx=6, pady=6)
-        ttk.Radiobutton(win, text=self.strings["theme_soft"], variable=self.theme_name, value="Soft", command=self.on_theme_change).grid(row=0, column=1, sticky="w")
-        ttk.Radiobutton(win, text=self.strings["theme_playful"], variable=self.theme_name, value="Playful", command=self.on_theme_change).grid(row=0, column=2, sticky="w")
-        ttk.Label(win, text=self.strings["font_size"]).grid(row=1, column=0, sticky="w", padx=6, pady=6)
-        fs = ttk.Scale(win, from_=10, to=28, orient="horizontal", variable=self.font_size, command=lambda e: self.on_font_change());
-        fs.grid(row=1, column=1, columnspan=2, padx=6, pady=6, sticky="ew")
-        # Dyslexia toggle restored (no description)
-        ttk.Checkbutton(win, text=self.strings.get("dyslexia_font", "Dyslexia font"), variable=self.dyslexia_font, command=self.on_dyslexia_toggle).grid(row=2, column=0, columnspan=3, padx=6, pady=6, sticky="w")
-        ttk.Checkbutton(win, text=self.strings["mute"], variable=self.muted).grid(row=3, column=0, columnspan=3, padx=6, pady=6, sticky="w")
-        ttk.Button(win, text=self.strings.get("reset_data", "Reset Data"), command=self.reset_data_confirm).grid(row=4, column=0, columnspan=3, pady=(8,10))
-        ttk.Button(win, text="Close", command=win.destroy).grid(row=5, column=0, columnspan=3, pady=6)
+            win = tk.Toplevel(self.root)
+            win.title(self.strings["settings"])
+            win.transient(self.root)
+            win.grab_set()
+            
+            # Theme Selection
+            ttk.Label(win, text=self.strings["theme"]).grid(row=0, column=0, sticky="w", padx=6, pady=6)
+            ttk.Radiobutton(win, text=self.strings["theme_soft"], variable=self.theme_name, value="Soft", command=self.on_theme_change).grid(row=0, column=1, sticky="w")
+            ttk.Radiobutton(win, text=self.strings["theme_playful"], variable=self.theme_name, value="Playful", command=self.on_theme_change).grid(row=0, column=2, sticky="w")
+            
+            # Font Size
+            ttk.Label(win, text=self.strings["font_size"]).grid(row=1, column=0, sticky="w", padx=6, pady=6)
+            fs = ttk.Scale(win, from_=10, to=28, orient="horizontal", variable=self.font_size, command=lambda e: self.on_font_change())
+            fs.grid(row=1, column=1, columnspan=2, padx=6, pady=6, sticky="ew")
+            
+            # Dyslexia Font
+            ttk.Checkbutton(win, text=self.strings.get("dyslexia_font", "Dyslexia font"), variable=self.dyslexia_font, command=self.on_dyslexia_toggle).grid(row=2, column=0, columnspan=3, padx=6, pady=6, sticky="w")
+            
+            # Background Sound Dropdown
+            ttk.Label(win, text="Background Sound:").grid(row=3, column=0, sticky="w", padx=6, pady=6)
+            sound_options = ["None", "Rain", "Coffee", "White Noise"]
+            # We use a standard OptionMenu (dropdown)
+            sound_menu = ttk.OptionMenu(win, self.bg_sound, self.bg_sound.get(), *sound_options, command=self.change_bg_sound)
+            sound_menu.grid(row=3, column=1, columnspan=2, sticky="ew", padx=6)
+    
+            # Mute Button
+            ttk.Checkbutton(win, text=self.strings["mute"], variable=self.muted).grid(row=4, column=0, columnspan=3, padx=6, pady=6, sticky="w")
+            
+            # Reset and Close
+            ttk.Button(win, text=self.strings.get("reset_data", "Reset Data"), command=self.reset_data_confirm).grid(row=5, column=0, columnspan=3, pady=(8,10))
+            ttk.Button(win, text="Close", command=win.destroy).grid(row=6, column=0, columnspan=3, pady=6)
 
     def on_dyslexia_toggle(self):
         self.apply_font_family()
@@ -551,13 +601,19 @@ class ProductivityTimerApp:
         self.save_settings()
 
     def on_close(self):
-        if self.is_running:
-            elapsed_seconds = (self.focus_min.get()*60 if self.is_focus else self.break_min.get()*60) - self.remaining
-            minutes_elapsed = max(0, elapsed_seconds // 60)
-            typ = "focus" if self.is_focus else "break"
-            self.session_log.append({"time": now_iso(), "type": typ, "minutes": minutes_elapsed, "xp": 0, "success": False})
-        self.save_progress()
-        self.root.destroy()
+            # Stop any background noise
+            if HAVE_WINSOUND:
+                winsound.PlaySound(None, winsound.SND_PURGE)
+    
+            if self.is_running:
+                # (Keep your existing logic here for saving logs...)
+                elapsed_seconds = (self.focus_min.get()*60 if self.is_focus else self.break_min.get()*60) - self.remaining
+                minutes_elapsed = max(0, elapsed_seconds // 60)
+                typ = "focus" if self.is_focus else "break"
+                self.session_log.append({"time": now_iso(), "type": typ, "minutes": minutes_elapsed, "xp": 0, "success": False})
+            
+            self.save_progress()
+            self.root.destroy()
 
 def main():
     root = tk.Tk()
