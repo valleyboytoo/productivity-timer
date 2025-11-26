@@ -175,7 +175,6 @@ class ProductivityTimerApp:
         self.font_scale = ttk.Scale(
             font_frame, from_=10, to=20, command=self.update_font
         )
-        # Note: We do NOT set the value here yet to avoid crashing
         self.font_scale.pack(side="left", padx=10)
 
         # timer mode
@@ -212,7 +211,6 @@ class ProductivityTimerApp:
         self.quote_label = ttk.Label(self.main_frame, wraplength=300)
         self.quote_label.pack(pady=5)
         
-        # Now that all widgets exist, we can safely set the font scale default
         self.font_scale.set(12)
 
     # language
@@ -252,14 +250,13 @@ class ProductivityTimerApp:
                 fg = "#f5f5f5"
                 button_bg = "#444"
             else:
-                # "Soft" Theme (Old Book Style)
-                bg = "#FDF5E6"  # Old Lace (Vintage Paper)
-                fg = "#5D4037"  # Warm Brown (Old Ink)
-                button_bg = "#E6D0B3" # Tan (Book Binding)
+                bg = "#FDF5E6"
+                fg = "#5D4037"
+                button_bg = "#E6D0B3"
     
             self.master.config(bg=bg)
             style = ttk.Style()
-            style.theme_use('clam') # 'clam' allows us to change button colors easily
+            style.theme_use('clam')
             
             # Apply colors to generic widgets
             style.configure("TLabel", background=bg, foreground=fg)
