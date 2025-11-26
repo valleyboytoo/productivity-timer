@@ -243,23 +243,38 @@ class ProductivityTimerApp:
         self.apply_theme()
 
     def apply_theme(self):
-        if self.current_theme == "light":
-            bg = "#f5f5f5"
-            fg = "#222"
-        elif self.current_theme == "dark":
-            bg = "#222"
-            fg = "#f5f5f5"
-        else:
-            bg = "#eef4ff"
-            fg = "#223"
-
-        self.master.config(bg=bg)
-        style = ttk.Style()
-        style.configure("TLabel", background=bg, foreground=fg)
-        style.configure("TFrame", background=bg)
-        for w in self.main_frame.winfo_children():
-            if isinstance(w, ttk.Label):
-                w.config(background=bg, foreground=fg)
+            if self.current_theme == "light":
+                bg = "#f5f5f5"
+                fg = "#222"
+                button_bg = "#e0e0e0" # optional button color
+            elif self.current_theme == "dark":
+                bg = "#222"
+                fg = "#f5f5f5"
+                button_bg = "#444"
+            else:
+                # "Soft" Theme (Old Book Style)
+                bg = "#FDF5E6"  # Old Lace (Vintage Paper)
+                fg = "#5D4037"  # Warm Brown (Old Ink)
+                button_bg = "#E6D0B3" # Tan (Book Binding)
+    
+            self.master.config(bg=bg)
+            style = ttk.Style()
+            style.theme_use('clam') # 'clam' allows us to change button colors easily
+            
+            # Apply colors to generic widgets
+            style.configure("TLabel", background=bg, foreground=fg)
+            style.configure("TFrame", background=bg)
+            style.configure("TButton", background=button_bg, foreground=fg, bordercolor=fg)
+            
+            # Force update for specific widgets
+            for w in self.main_frame.winfo_children():
+                if isinstance(w, ttk.Label):
+                    w.config(background=bg, foreground=fg)
+                # Check for frames inside main_frame (like settings frame)
+                elif isinstance(w, ttk.Frame):
+                    for child in w.winfo_children():
+                        if isinstance(child, ttk.Label):
+                            child.config(background=bg, foreground=fg)
     
     # Sound Logic
     def set_sound(self, event=None):
